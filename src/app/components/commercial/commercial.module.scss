@@ -1,0 +1,97 @@
+.section {
+  padding: 70px 0px;
+  background-color: #EBEBEB;
+  @media (max-width: 767px) {
+        padding: 30px 0px 0px 0px;
+      }
+  .container {
+    max-width: 1200px;
+    .sectionWrapper {
+      display: flex;
+      justify-content: space-between;
+      color: black;
+      margin-bottom: 50px;
+      @media (max-width: 767px) {
+        flex-direction: column;
+        gap: 30px;
+        margin-bottom: 0px;
+      }
+      .infoBlock {
+        @media (max-width: 767px) {
+          margin-bottom: 30px;
+        }
+        .title {
+          font-size: 50px;
+          margin-bottom: 10px;
+          @media (max-width: 767px) {
+            font-size: 35px;
+      }
+        }
+        .button {
+          color: black;
+          cursor: pointer;
+          padding: 10px 30px;
+          border-radius: 20px;
+          border: 1px black solid;
+          margin-bottom: 70px;
+        }
+
+        .cardsBlock {
+          padding-left: 70px;
+          display: flex;
+          flex-direction: column;
+          gap: 50px;
+          @media (max-width: 767px) {
+            padding-left: 0px;
+          }
+        }
+      }
+      .videoBlock {
+        max-width: 800px;
+        .firstVideoBlock {
+          width: 200px;
+          height: 200px;
+          justify-self: flex-end;
+          margin-bottom: 50px;
+           @media (max-width: 767px) {
+            width: 100%;
+          }
+          .firstVideo {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          margin-bottom: 50px;
+
+          }
+        }
+        .secondVideoBlock {
+          width: 400px;
+          height: 400px;
+           @media (max-width: 767px) {
+            display: none;
+          };
+          .secondVideo {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+    .bigVideoBlock {
+        width: 600px;
+        height: 600px;
+        justify-self: flex-end;
+        @media (max-width: 767px) {
+            display: none;
+          };
+        .bigVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+  }
+}

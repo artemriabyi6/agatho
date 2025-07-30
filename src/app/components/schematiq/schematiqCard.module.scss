@@ -1,0 +1,19 @@
+                .card {
+                    display: flex;
+                    gap: 20px;
+                    max-width: 400px;
+                    .cardNumber {
+                        .cardId {
+                            font-size: 50px;
+                            line-height: 1;
+                        }
+                    }
+                    .cardText {
+                        .cardTitle {
+                            font-size: 25px;
+                            margin-bottom: 10px;
+                            line-height: 1;
+                        }
+                    }
+                }
+            

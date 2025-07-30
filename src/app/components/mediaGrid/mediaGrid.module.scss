@@ -1,0 +1,49 @@
+.gallery {
+  padding-block: 60px;
+
+  .container {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 15px;
+  }
+  
+  .infoBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+    .title {
+    font-size: 70px;
+  }
+  img {
+    width: 70px;
+    height: 70px;
+    transform: rotate(90deg);
+  }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 100px; // Базовий розмір рядка (4 рядки = ~500px загальної висоти)
+    gap: 10px; // Зменшуємо проміжки для компактності
+    height: auto // Фіксована висота контейнера
+  }
+
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 8px; // Менше закруглення для компактності
+    
+    img {
+      transition: transform 0.3s ease;
+      object-fit: cover;
+    }
+
+    &:hover img {
+      transform: scale(1.05);
+    }
+  }
+}
