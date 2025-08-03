@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import styles from './mediaGrid.module.scss';
 
@@ -49,6 +49,11 @@ const Gallery = () => {
   const galleryRef = useRef<HTMLElement>(null);
   const gridItemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Виправлений ref-колбек без зміни UI
+  const setItemRef = useCallback((index: number) => (el: HTMLDivElement | null) => {
+    gridItemsRef.current[index] = el;
+  }, []);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -83,7 +88,7 @@ const Gallery = () => {
         <div className={styles.grid}>
           {mediaItems.map((item, index) => (
             <div 
-              ref={(el) => (gridItemsRef.current[index] = el)}
+              ref={setItemRef(index)}
               className={styles.imageWrapper} 
               key={index}
               style={{

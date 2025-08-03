@@ -80,7 +80,13 @@ const Commercial = () => {
               {cards.map((card, index) => (
                 <div 
                   key={card.id}
-                  ref={(el) => (cardWrapperRefs.current[index] = el)}
+                  ref={(el) => {
+                    if (el) {
+                      cardWrapperRefs.current[index] = el;
+                    } else {
+                      cardWrapperRefs.current[index] = null;
+                    }
+                  }}
                   className={styles.cardWrapper}
                 >
                   <SchematiqCard 

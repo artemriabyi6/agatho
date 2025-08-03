@@ -62,7 +62,11 @@ const Cards = () => {
             <div className={`container ${styles.container}`}>
                {cards.map((card, index) => (
                 <div 
-                    ref={(el) => (cardRefs.current[index] = el)}
+                    ref={(el) => {
+                        if (el) {
+                            cardRefs.current[index] = el
+                        }
+                    }}
                     className={styles.card} 
                     key={card.src}
                     style={{ '--delay': `${(index + 1) * 0.2}s` } as React.CSSProperties}
