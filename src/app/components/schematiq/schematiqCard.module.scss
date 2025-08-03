@@ -1,19 +1,41 @@
-                .card {
-                    display: flex;
-                    gap: 20px;
-                    max-width: 400px;
-                    .cardNumber {
-                        .cardId {
-                            font-size: 50px;
-                            line-height: 1;
-                        }
-                    }
-                    .cardText {
-                        .cardTitle {
-                            font-size: 25px;
-                            margin-bottom: 10px;
-                            line-height: 1;
-                        }
-                    }
-                }
-            
+.card {
+    display: flex;
+    gap: 20px;
+    max-width: 400px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out var(--delay, 0s), transform 0.5s ease-out var(--delay, 0s);
+
+    &.animate {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .cardNumber {
+        .cardId {
+            font-size: 50px;
+            line-height: 1;
+        }
+    }
+
+    .cardText {
+        .cardTitle {
+            font-size: 25px;
+            margin-bottom: 10px;
+            line-height: 1;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: #555;
+            }
+        }
+
+        .cardDescription {
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: #777;
+            }
+        }
+    }
+}

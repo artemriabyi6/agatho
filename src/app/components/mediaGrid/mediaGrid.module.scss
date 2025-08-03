@@ -1,10 +1,23 @@
 .gallery {
   padding-block: 60px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
+  &.animate {
+    opacity: 1;
+    transform: translateY(0);
+
+    .imageWrapper {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 
   .container {
     max-width: 1200px;
     margin-inline: auto;
-    padding-inline: 15px;
+    padding: 15px;
   }
   
   .infoBlock {
@@ -12,22 +25,31 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 60px;
+    
     .title {
-    font-size: 70px;
-  }
-  img {
-    width: 70px;
-    height: 70px;
-    transform: rotate(90deg);
-  }
+      font-size: 70px;
+      opacity: 0;
+      transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
+      @media (max-width: 767px) {
+        font-size: 50px;
+        
+      }
+    }
+    
+    img {
+      width: 70px;
+      height: 70px;
+      transform: rotate(90deg);
+      opacity: 0;
+      transition: opacity 0.6s ease-out 0.4s, transform 0.6s ease-out 0.4s;
+    }
   }
 
   .grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: 100px; // Базовий розмір рядка (4 рядки = ~500px загальної висоти)
-    gap: 10px; // Зменшуємо проміжки для компактності
-    height: auto // Фіксована висота контейнера
+    grid-auto-rows: 100px;
+    gap: 10px;
   }
 
   .imageWrapper {
@@ -35,15 +57,28 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    border-radius: 8px; // Менше закруглення для компактності
-    
-    img {
+    border-radius: 8px;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    transition-delay: calc(0.1s * var(--delay-index, 0));
+
+    img, video {
       transition: transform 0.3s ease;
       object-fit: cover;
     }
 
-    &:hover img {
+    &:hover img,
+    &:hover video {
       transform: scale(1.05);
+    }
+  }
+
+  &.animate {
+    .infoBlock {
+      .title, img {
+        opacity: 1;
+      }
     }
   }
 }

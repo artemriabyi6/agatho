@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useRef } from 'react'
 import styles from './cards.module.scss'
 
 type Card = {
@@ -17,17 +20,59 @@ const cards: Card[] = [
 ] 
 
 const Cards = () => {
+    const sectionRef = useRef<HTMLElement>(null)
+    const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add(styles.animate)
+                        observer.unobserve(entry.target)
+                    }
+                })
+            },
+            { 
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            }
+        )
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current)
+        }
+
+        cardRefs.current.forEach((card) => {
+            if (card) observer.observe(card)
+        })
+
+        return () => {
+            if (sectionRef.current) {
+                observer.unobserve(sectionRef.current)
+            }
+            cardRefs.current.forEach((card) => {
+                if (card) observer.unobserve(card)
+            })
+        }
+    }, [])
+
     return ( 
-        <section className={styles.section}>
+        <section ref={sectionRef} className={styles.section}>
             <div className={`container ${styles.container}`}>
-               {cards.map(card => (
-                <div className={styles.card} key={card.src}>
-                    <video src={card.src} autoPlay muted loop controls></video>
+               {cards.map((card, index) => (
+                <div 
+                    ref={(el) => (cardRefs.current[index] = el)}
+                    className={styles.card} 
+                    key={card.src}
+                    style={{ '--delay': `${(index + 1) * 0.2}s` } as React.CSSProperties}
+                >
+                    <video src={card.src} autoPlay muted loop playsInline></video>
                 </div>
                ))}
             </div>
         </section>
-     );
+    )
 }
  
-export default Cards;
+export default Cards

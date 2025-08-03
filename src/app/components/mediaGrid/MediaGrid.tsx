@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import styles from './mediaGrid.module.scss';
 
@@ -13,10 +14,10 @@ type Item = {
 const mediaItems: Item[] = [
   { type: 'video', src: 'https://res.cloudinary.com/daqtqvg3i/video/upload/v1753902281/Untitled_design_sbl3df.mp4', width: 1, height: 2 },
   { type: 'image', src: '/assets/baner3.webp', width: 1, height: 1 },
-  { type: 'video', src: 'https://res.cloudinary.com/daqtqvg3i/video/upload/v1753901593/grid3_y0ko1w.mp4', width: 2, height: 1,  }, // Широке відео
+  { type: 'video', src: 'https://res.cloudinary.com/daqtqvg3i/video/upload/v1753901593/grid3_y0ko1w.mp4', width: 2, height: 1 },
   { type: 'image', src: '/assets/baner2.webp', width: 1, height: 1 },
   { type: 'image', src: '/assets/baner3.webp', width: 1, height: 1 },
-  { type: 'video', src: 'https://res.cloudinary.com/daqtqvg3i/video/upload/v1753901582/grid2_unol49.mp4', width: 1, height: 2, }, // Високе відео
+  { type: 'video', src: 'https://res.cloudinary.com/daqtqvg3i/video/upload/v1753901582/grid2_unol49.mp4', width: 1, height: 2 },
   { type: 'image', src: '/assets/baner2.webp', width: 2, height: 1 },
   { type: 'image', src: '/assets/baner3.webp', width: 1, height: 1 },
   { type: 'video', src: 'https://res.cloudinary.com/daqtqvg3i/video/upload/v1753901962/Black_Pink_Fashion_Modern_Outfit_Style_Photo_Collage_Instagram_Reel_gburak.mp4', width: 1, height: 2 },
@@ -29,13 +30,13 @@ type VideoProps = {
   src: string
 }
 
-const VideoPlayer = ({ src }: VideoProps ) => {
+const VideoPlayer = ({ src }: VideoProps) => {
   return (
     <video 
       muted
       autoPlay
-      loop 
-    
+      loop
+      playsInline
       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
     >
       <source src={src} type="video/mp4" />
@@ -45,8 +46,35 @@ const VideoPlayer = ({ src }: VideoProps ) => {
 };
 
 const Gallery = () => {
+  const galleryRef = useRef<HTMLElement>(null);
+  const gridItemsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(styles.animate);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (galleryRef.current) {
+      observer.observe(galleryRef.current);
+    }
+
+    gridItemsRef.current.forEach((item) => {
+      if (item) observer.observe(item);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className={styles.gallery}>
+    <section ref={galleryRef} className={styles.gallery}>
       <div className={styles.container}>
         <div className={styles.infoBlock}>
           <h2 className={styles.title}>Our Work</h2>
@@ -55,6 +83,7 @@ const Gallery = () => {
         <div className={styles.grid}>
           {mediaItems.map((item, index) => (
             <div 
+              ref={(el) => (gridItemsRef.current[index] = el)}
               className={styles.imageWrapper} 
               key={index}
               style={{
@@ -71,7 +100,7 @@ const Gallery = () => {
                   style={{ objectFit: 'cover' }}
                 />
               ) : (
-                <VideoPlayer src={item.src}  />
+                <VideoPlayer src={item.src} />
               )}
             </div>
           ))}
